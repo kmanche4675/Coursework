@@ -1,205 +1,226 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/qQRxJuIv)
-# Homework 1: Ruby Warmup
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/coEW8uOO)
+# Homework 3: Extend CalcPL (without Types)
 
-**This is an individual assignment. You must work on this project alone.**
+**This is an individual assignment. You must work on this homework alone.**
 
-## Before You Start
 
 ## Introduction
-This project aims to give you some experience with basic Ruby functionality, including using basic data types (integers, strings), collections (arrays and hashes), and classes. You will also become familiar with Ruby's basic control constructs for looping and conditional execution, and how to run Ruby unit tests.
+The goal of this homework is to get you familiar with developing a programming language in OCaml. 
+In this homework, you will extend the CalcPL initial version. You need to add the following. 
 
-## Getting New Projects
-You should have cloned the repository. Go to the cloned repo in your terminal and run `git pull`.  This will download the files for this project and update your cloned repository.
+- A new data type `bool`,
+- Less-than-equals (`LEQ` or `<=`) operator
+- Support for defining variables with `let` as we can define in OCaml
+- Support for `if-then-else`
+- Support for errors (e.g., `1 + true ` is not allowed). 
 
-## Submitting
-You will submit this homework on GitHub. You can create your branches while working and upon merging a pull request to `main` branch you will submit your code for submission. 
+## Testing & Submitting
+To test locally, run `make test` from the homework directory. We recommend you write student tests in `test/main.ml`.
 
-## Testing
-Test cases are available in `test/public/public.rb` file, you can run them using `ruby ./test/public/public.rb`. For additional tests, you can create `test/student/student.rb` and get bonus points. 
+You can interactively test your code by doing `make utop` (assuming you have utop). Then you should be able to use any of the functions. All of your commands in utop need to end with two semicolons (i.e. ;;), otherwise it will appear that your terminal is hanging.
 
-## A Note on Types
-Ruby has no built-in way to restrict the types passed to methods. As such, all method types specified in this document are the only ones you need to handle. You may assume that no arguments will be passed outside of the types we specify, and your program may do anything in cases where improperly typed arguments are passed. This is undefined behavior for this program and **will not be tested**.
+## Test cases 
 
-The expected types will be represented in the following format at the beginning of each section:
+For `bool` types, we expect to pass the following unit tests.
 
-```ruby
-(String) -> Array or nil
+```ocaml
+make_b "true" true "true";
+make_b "false" false "false";
 ```
 
-The left-hand side of the arrow specifies the parameter types, and the right-hand side specifies the return type. This example describes a method that takes a single `String` as an argument and either returns an `Array` or `nil`. When implementing a method with this signature, you may assume that a `String` will be passed in and you are responsible for ensuring that *only* a `Array` or `nil` is returned. (Since Ruby is object oriented, the signature also means that a subclass of `String` could be passed in, and that a subclass of `Array` could be returned.)
+For less-than-equals, we expect the following behavior. 
 
-**Note**: Some shorthand is used to avoid verbosity in type siguatures; namely:
-- `Integer` is used to refer to either `Fixnum` or `Bignum` (i.e., we can think of `Integer` as a superclass of these two).
-- `Bool` is used to refer to the either `TrueClass` or `FalseClass`.
-- `nil` is used to refer to `NilClass`.
+```ocaml
+make_b "leq" true "1<=1";
+make_b "leq1" false "2<=1";
+```
 
-# Part 1 (Warm-up)
-Implement part 1 in `warmup.rb`. Each of the methods you must implement are described below. We provide you with the signature of each method and a description of its required behavior. For some methods, we state assumptions that you can make about the input. In these cases, it doesn't matter what your code does if the assumption isn't met, since we will never run a test case that contradicts the assumption.
+For `let` syntax, see the following case.
 
-#### `fib(n)`
-- **Description**: Returns the first `n` [fibonacci numbers](https://www.mathsisfun.com/numbers/fibonacci-sequence.html#:~:text=Here%20is%20a%20longer%20list,196418%2C%20317811%2C%20...).
-- **Type**: `(Integer) -> Array`
-- **Assumptions**: `n` is non-negative.
-- **Examples**:
-  ```ruby
-  fib(0) == []
-  fib(1) == [0]
-  fib(2) == [0, 1]
-  fib(3) == [0, 1, 1]
-  fib(10) == [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
-  ```
+```ocaml
+make_i "let" 22 "let x=22 in x";
+```
 
-#### `isPalindrome(n)`
-- **Description**: Returns `true` if `n` is a palindrome and `false` otherwise. A palindrome is the same read forward and backward.
-- **Type**: `(Integer) -> Bool`
-- **Assumptions**: `n` is non-negative; `n` will not be provided with any leading 0s.
-- **Hint**: It may be easier to do this after converting the provided integer to a String.
-- **Examples**:
-  ```ruby
-  isPalindrome(0) == true
-  isPalindrom(1) == true
-  isPalindrome(10) == false
-  isPalindrome(101) == true
-  isPalindrome(120210) == false
-  ```
+In the case of conditions, the syntax will be like the following. 
 
-#### `nthmax(n, a)`
-- **Description**: Returns the `n`th largest value in the array `a` or `nil` if it does not exist. That the largest value is specified using n = 0.
-- **Type**: `(Integer, Array) -> Integer or nil`
-- **Assumptions**: `n` is non-negative.
-- **Examples**:
-  ```ruby
-  nthmax(0, [1,2,3,0]) == 3
-  nthmax(1, [3,2,1,0]) == 2
-  nthmax(2, [7,3,4,5]) == 4
-  nthmax(5, [1,2,3]) == nil
-  ```
+```ocaml
+make_i "if1" 22 "if true then 22 else 0";
+```
 
-#### `freq(s)`
-- **Description**: Returns a one-character string containing the character that occurs with the highest frequency within 's'. If `s` has no characters, it should return the empty string.
-- **Type**: `(String) -> String`
-- **Assumptions**: Only one character will have the highest frequency (i.e. there will be no "ties").
-- **Examples**:
-  ```ruby
-  freq("") == ""
-  freq("aaabb") == "a"
-  freq("bbaaa") == "a"
-  freq("ssabcd") == "s"
-  freq("a12xxxxxyyyxyxyxy") == "x"
-  ```
+Our language should not allow to perform invalid operations. For example, you should not be allowed add integer and boolean. 
 
-#### `zipHash(arr1, arr2)`
-- **Description**: Returns a hash that maps corresponding elements in `arr1` and `arr2`, i.e., `arr1[i]` maps to `arr2[i]`, for all i. If the two arrays are not the same length, return `nil`.
-- **Type**: `(Array, Array) -> Hash or nil`
-- **Examples**:
-  ```ruby
-  zipHash([], []) == {}
-  zipHash([1], [2]) == {1 => 2}
-  zipHash([1, 5], [2, 4]) == {1 => 2, 5 => 4}
-  zipHash([1], [2, 3]) == nil
-  zipHash(["Umar", "Justin", "Yuhong"], ["prof", "TA", "TA"]) == {"Umar" => "prof", "Justin" => "TA", "Yuhong" => "TA"}
-  ```
+```ocaml
+make_t "invalid plus" bop_err "1 + true";
+make_t "invalid leq" bop_err "true <= 1";
+make_t "invalid guard" if_guard_err "if 1 then 2 else 3";
+make_t "unbound" unbound_var_err "x";
+```
 
-#### `hashToArray(hash)`
-- **Description**: Returns an array of arrays; each element of the returned array is a two-element array where the first item is a key from the hash and the second item is its corresponding value. The entries in the returned array must be sorted in the same order as they appear in `hash.keys`.
-- **Type**: `(Hash) -> Array`
-- **Examples**:
-  ```ruby
-  hashToArray({}) == []
-  hashToArray({"a" => "b"}) == [["a", "b"]]
-  hashToArray({"a" => "b", 1 => 2}) == [["a", "b"], [1, 2]]
-  hashToArray({"x" => "v", "y" => "w", "z" => "u"}) == [["x", "v"], ["y", "w"], ["z", "u"]]
-  ```
+Finally, calcPL should be able to mix and match all the defined operators. Your code should pass all the following tests.
+```ocaml
+make_i "int" 22 "22";
+make_i "add" 22 "11+11";
+make_i "adds" 22 "(10+1)+(5+6)";
+make_i "let" 22 "let x=22 in x";
+make_i "lets" 22 "let x = 0 in let x = 22 in x";
+make_i "mul1" 22 "2*11";
+make_i "mul2" 22 "2+2*10";
+make_i "mul3" 14 "2*2+10";
+make_i "mul4" 40 "2*2*10";
+make_i "if1" 22 "if true then 22 else 0";
+make_b "true" true "true";
+make_b "leq" true "1<=1";
+make_i "if2" 22 "if 1+2 <= 3+4 then 22 else 0";
+make_i "if3" 22 "if 1+2 <= 3*4 then let x = 22 in x else 0";
+make_i "letif" 22 "let x = 1+2 <= 3*4 in if x then 22 else 0";
+make_t "invalid plus" bop_err "1 + true";
+make_t "invalid mult" bop_err "1 * false";
+make_t "invalid leq" bop_err "true <= 1";
+make_t "invalid guard" if_guard_err "if 1 then 2 else 3";
+make_t "unbound" unbound_var_err "x";
+```
 
-# Part 2 (PhoneBook class)
-In part 2, you will be implementing a PhoneBook class. It is up to you to decide how to store the data (i.e., how to define a phonebook instance's fields) so that you can correctly implement all the required methods.
-
-Even though the data structure you will implement is up to you, keep the following in mind:
-- The Phonebook will hold names and phone numbers, as well as a note on whether each name and phone number pair is **listed** or not.
-- By listed, we mean that they are marked as so (not simply stored). You might want to use a boolean to determine it so.
-- The Phonebook might contain listed and unlisted entries. How you should add them will be specified in the `add` method below.
+## Pointers
 
 
-#### `initialize`
-- **Description**: This is the constructor. You should initialize the fields that you think your class needs for successful evaluation of the remaining methods. We do not test the constructor directly, but we do test it indirectly by testing the remaining methods.
 
-#### `add(name, number, is_listed)`
-- **Description**: This method attempts to add a new entry to the PhoneBook. `name` is the name of the person and `number` is that person's phone number. The `is\_listed` parameter identifies if this entry should be listed or unlisted in the PhoneBook (`true` if listed, `false` if unlisted). Return `true` if the operation was successful, and `false` otherwise. Here are the **requirements** for the add method:
-    - If the person already exists, then the entry cannot be added to the PhoneBook.
-    - If `number` is not in the format `NNN-NNN-NNNN`, the entry cannot be added to the PhoneBook.
-    - A `number` can be added as *unlisted* any number of times, but can only be added as *listed* once. This means that if `number` already exists and is *listed* in the PhoneBook, the new entry can only be added if the entry will be *unlisted*.
+The names of variables can be alphabetical, hence, the following regex should come in handy (in `lexer.mll`).
 
-- **Type**: `(String, String, Bool) -> Bool`
-- **Assumptions**: No phone number will start with 0.
-- **Examples**:
-  ```ruby
-  @phonebook = PhoneBook.new
-  @phonebook.add("John", "110-192-1862", false) == true
-  @phonebook.add("Jane", "220-134-1312", false) == true
-  @phonebook.add("John", "110-192-1862", false) == false
-  @phonebook.add("Ravi", "110", true) == false
-  ```
+```text
+let letter = ['a'-'z' 'A'-'Z']
+let id = letter+
+```
+The test cases are built on the following operators of calcPL.
+
+Here is the rule for the lexer:
+
+```text
+rule read =
+  parse
+  | white { read lexbuf }
+  | "true" { TRUE }
+  | "false" { FALSE }
+  | "<=" { LEQ }
+  | "*" { TIMES }
+  | "+" { PLUS }
+  | "(" { LPAREN }
+  | ")" { RPAREN }
+  | "let" { LET }
+  | "=" { EQUALS }
+  | "in" { IN }
+  | "if" { IF }
+  | "then" { THEN }
+  | "else" { ELSE }
+  | id { ID (Lexing.lexeme lexbuf) }
+  | int { INT (int_of_string (Lexing.lexeme lexbuf)) }
+  | eof { EOF }
+```
+
+To add new operators, you will need to modify `ast.ml`:
+
+```ocaml
+type bop =
+  ... 
+  | Leq
+
+type expr =
+  ... 
+  | Var of string
+  | Bool of bool
+  | Let of string * expr * expr
+  | If of expr * expr * expr
+```
+
+Additional lexical *tokens* of our language can be (changes in `parser.mly`). 
+
+```text
+...
+%token <string> ID
+%token TRUE
+%token FALSE
+%token LEQ
+%token LET
+%token EQUALS
+%token IN
+%token IF
+%token THEN
+%token ELSE
+```
+Also, operators should have the following precedence over each other.
+
+```text
+%nonassoc IN
+%nonassoc ELSE
+%left LEQ
+%left PLUS
+%left TIMES
+```
+
+CalcPL has new productions for all the new expressions. 
+
+```text
+expr:
+  ...
+  | x = ID { Var x }
+  | TRUE { Bool true }
+  | FALSE { Bool false }
+  | e1 = expr; LEQ; e2 = expr { Binop (Leq, e1, e2) }
+  | LET; x = ID; EQUALS; e1 = expr; IN; e2 = expr { Let (x, e1, e2) }
+  | IF; e1 = expr; THEN; e2 = expr; ELSE; e3 = expr { If (e1, e2, e3) }
+  | LPAREN; e=expr; RPAREN {e}
+  ;
+```
+Use the following tips to modify `main.ml`
+
+```ocaml
+let string_of_val (e : expr) : string =
+  match  e with
+  | Int i -> string_of_int i
+  | Bool b -> string_of_bool b
+  | _ -> failwith "precondition violated"
+```
+
+```ocaml
+let is_value : expr -> bool = function 
+  | Int _ | Bool _ -> true
+  | Var _ | Let _ | Binop _ | If _ -> false
+```
+
+Declared variables should substitute for their values. This new function will come in handy for that.
+
+```ocaml
+let rec subst e v x = match e with
+  | Var y -> if x = y then v else e
+  | Bool _ -> e
+  | Int _ -> e
+  | Binop (bop, e1, e2) -> Binop (bop, subst e1 v x, subst e2 v x)
+  | Let (y, e1, e2) ->
+    let e1' = subst e1 v x in
+    if x = y
+    then Let (y, e1', e2)
+    else Let (y, e1', subst e2 v x)
+  | If (e1, e2, e3) -> 
+    If (subst e1 v x, subst e2 v x, subst e3 v x)
+```
+You will also need to modify `step` and `step_bop` to support for new features. 
+
+```ocaml
+let rec step : expr -> expr = function
+  | Int _ | Bool _ -> failwith "Does not step"
+  | Var _ -> failwith unbound_var_err
+  ...
   
-  Here is another example:
-  
-  ```ruby
-  @phonebook2 = PhoneBook.new
-  @phonebook2.add("Alice", "012-345-6789", false) == true
-  @phonebook2.add("Bob", "012-345-6789", false) == true
-  @phonebook2.add("Eve", "012-345-6789", true) == true
-  @phonebook2.add("Rob", "012-345-6789, true) == false
-  @phonebook2.add("Johnny B. Good", "012-345-6789, false) == true
-  ```
+  | Let (x, e1, e2) when is_value e1 -> subst e2 e1 x
+  | Let (x, e1, e2) -> Let (x, step e1, e2)
+  | If (Bool true, e2, _) -> e2
+  | If (Bool false, _, e3) -> e3
+  | If (Int _, _, _) -> failwith if_guard_err
+  | If (e1, e2, e3) -> If (step e1, e2, e3)
 
-#### `lookup(name)`
-- **Description**: Looks up `name` in the `PhoneBook` and returns the corresponding phone number in the format `NNN-NNN-NNNN` ONLY if the entry is listed. Otherwise, return `nil`.
-- **Type**: `(String) -> String or nil`
-- **Examples**:
-  ```ruby
-  @phonebook = PhoneBook.new
-  @phonebook.add("John", "110-192-1862", false) == true
-  @phonebook.add("Jane", "220-134-1312", true) == true
-  @phonebook.add("Jack", "114-192-1862", false) == true
-  @phonebook.add("Jessie", "410-124-1131", true) == true
-  @phonebook.add("Ravi", "110", true) == false
+and step_bop bop e1 e2 = match bop, e1, e2 with
+  ...
+  | Leq, Int a, Int b -> Bool (a <= b)
+  | _ -> failwith bop_err
+```
 
-  @phonebook.lookup("John") == nil
-  @phonebook.lookup("Jack") == nil
-  @phonebook.lookup("Jane") == "220-134-1312"
-  @phonebook.lookup("Jessie") == "410-124-1131"
-  @phonebook.lookup("Ravi") == nil
-  ```
-
-#### `lookupByNum(num)`
-- **Description**: Returns the name associated with a given number *only* if the entry is listed. Otherwise, return `nil`.
-- **Type**: `(String) -> String or nil`
-- **Examples**:
-  ```ruby
-  @phonebook = PhoneBook.new
-  @phonebook.add("John", "110-192-1862", false) == true
-  @phonebook.add("Jane", "220-134-1312", true) == true
-  @phonebook.add("Jack", "114-192-1862", false) == true
-  @phonebook.add("Jessie", "410-124-1131", true) == true
-
-  @phonebook.lookupByNum("110-192-1862") == nil
-  @phonebook.lookupByNum("114-192-1862") == nil
-  @phonebook.lookupByNum("220-134-1312") == "Jane"
-  @phonebook.lookupByNum("410-124-1131") == "Jessie"
-  ```
-
-#### `namesByAc(areacode)`
-- **Description**: Returns an array of all names in the `PhoneBook` who have phone numbers beginning with `areacode`, *including unlisted names*.
-- **Type**: `(String) -> Array`
-- **Examples**:
-  ```ruby
-  @phonebook = PhoneBook.new
-  @phonebook.add("John", "110-192-1862", false) == true
-  @phonebook.add("Jane", "220-134-1312", true) == true
-  @phonebook.add("Jack", "114-192-1862", false) == true
-  @phonebook.add("Jessie", "110-124-1131", true) == true
-  # Note that Jessie's number here is a little different than in the other examples!
-
-  @phonebook.namesByAc("110") == ["John", "Jessie"]
-  @phonebook.namesByAc("114") == ["Jack"]
-  @phonebook.namesByAc("111") == []
-  ```
+**Good luck!**
