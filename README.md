@@ -1,205 +1,113 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/qQRxJuIv)
-# Homework 1: Ruby Warmup
+# Precision Notes
 
-**This is an individual assignment. You must work on this project alone.**
+Hi and Welcome to our Project "Precision-Notes"!
 
-## Before You Start
+Created by: Amy Granados, Cole Heausler, Konnor Trosclair, Kendrick Manchester and Thomas Woodcum
 
-## Introduction
-This project aims to give you some experience with basic Ruby functionality, including using basic data types (integers, strings), collections (arrays and hashes), and classes. You will also become familiar with Ruby's basic control constructs for looping and conditional execution, and how to run Ruby unit tests.
-
-## Getting New Projects
-You should have cloned the repository. Go to the cloned repo in your terminal and run `git pull`.  This will download the files for this project and update your cloned repository.
-
-## Submitting
-You will submit this homework on GitHub. You can create your branches while working and upon merging a pull request to `main` branch you will submit your code for submission. 
-
-## Testing
-Test cases are available in `test/public/public.rb` file, you can run them using `ruby ./test/public/public.rb`. For additional tests, you can create `test/student/student.rb` and get bonus points. 
-
-## A Note on Types
-Ruby has no built-in way to restrict the types passed to methods. As such, all method types specified in this document are the only ones you need to handle. You may assume that no arguments will be passed outside of the types we specify, and your program may do anything in cases where improperly typed arguments are passed. This is undefined behavior for this program and **will not be tested**.
-
-The expected types will be represented in the following format at the beginning of each section:
-
-```ruby
-(String) -> Array or nil
-```
-
-The left-hand side of the arrow specifies the parameter types, and the right-hand side specifies the return type. This example describes a method that takes a single `String` as an argument and either returns an `Array` or `nil`. When implementing a method with this signature, you may assume that a `String` will be passed in and you are responsible for ensuring that *only* a `Array` or `nil` is returned. (Since Ruby is object oriented, the signature also means that a subclass of `String` could be passed in, and that a subclass of `Array` could be returned.)
-
-**Note**: Some shorthand is used to avoid verbosity in type siguatures; namely:
-- `Integer` is used to refer to either `Fixnum` or `Bignum` (i.e., we can think of `Integer` as a superclass of these two).
-- `Bool` is used to refer to the either `TrueClass` or `FalseClass`.
-- `nil` is used to refer to `NilClass`.
-
-# Part 1 (Warm-up)
-Implement part 1 in `warmup.rb`. Each of the methods you must implement are described below. We provide you with the signature of each method and a description of its required behavior. For some methods, we state assumptions that you can make about the input. In these cases, it doesn't matter what your code does if the assumption isn't met, since we will never run a test case that contradicts the assumption.
-
-#### `fib(n)`
-- **Description**: Returns the first `n` [fibonacci numbers](https://www.mathsisfun.com/numbers/fibonacci-sequence.html#:~:text=Here%20is%20a%20longer%20list,196418%2C%20317811%2C%20...).
-- **Type**: `(Integer) -> Array`
-- **Assumptions**: `n` is non-negative.
-- **Examples**:
-  ```ruby
-  fib(0) == []
-  fib(1) == [0]
-  fib(2) == [0, 1]
-  fib(3) == [0, 1, 1]
-  fib(10) == [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
-  ```
-
-#### `isPalindrome(n)`
-- **Description**: Returns `true` if `n` is a palindrome and `false` otherwise. A palindrome is the same read forward and backward.
-- **Type**: `(Integer) -> Bool`
-- **Assumptions**: `n` is non-negative; `n` will not be provided with any leading 0s.
-- **Hint**: It may be easier to do this after converting the provided integer to a String.
-- **Examples**:
-  ```ruby
-  isPalindrome(0) == true
-  isPalindrom(1) == true
-  isPalindrome(10) == false
-  isPalindrome(101) == true
-  isPalindrome(120210) == false
-  ```
-
-#### `nthmax(n, a)`
-- **Description**: Returns the `n`th largest value in the array `a` or `nil` if it does not exist. That the largest value is specified using n = 0.
-- **Type**: `(Integer, Array) -> Integer or nil`
-- **Assumptions**: `n` is non-negative.
-- **Examples**:
-  ```ruby
-  nthmax(0, [1,2,3,0]) == 3
-  nthmax(1, [3,2,1,0]) == 2
-  nthmax(2, [7,3,4,5]) == 4
-  nthmax(5, [1,2,3]) == nil
-  ```
-
-#### `freq(s)`
-- **Description**: Returns a one-character string containing the character that occurs with the highest frequency within 's'. If `s` has no characters, it should return the empty string.
-- **Type**: `(String) -> String`
-- **Assumptions**: Only one character will have the highest frequency (i.e. there will be no "ties").
-- **Examples**:
-  ```ruby
-  freq("") == ""
-  freq("aaabb") == "a"
-  freq("bbaaa") == "a"
-  freq("ssabcd") == "s"
-  freq("a12xxxxxyyyxyxyxy") == "x"
-  ```
-
-#### `zipHash(arr1, arr2)`
-- **Description**: Returns a hash that maps corresponding elements in `arr1` and `arr2`, i.e., `arr1[i]` maps to `arr2[i]`, for all i. If the two arrays are not the same length, return `nil`.
-- **Type**: `(Array, Array) -> Hash or nil`
-- **Examples**:
-  ```ruby
-  zipHash([], []) == {}
-  zipHash([1], [2]) == {1 => 2}
-  zipHash([1, 5], [2, 4]) == {1 => 2, 5 => 4}
-  zipHash([1], [2, 3]) == nil
-  zipHash(["Umar", "Justin", "Yuhong"], ["prof", "TA", "TA"]) == {"Umar" => "prof", "Justin" => "TA", "Yuhong" => "TA"}
-  ```
-
-#### `hashToArray(hash)`
-- **Description**: Returns an array of arrays; each element of the returned array is a two-element array where the first item is a key from the hash and the second item is its corresponding value. The entries in the returned array must be sorted in the same order as they appear in `hash.keys`.
-- **Type**: `(Hash) -> Array`
-- **Examples**:
-  ```ruby
-  hashToArray({}) == []
-  hashToArray({"a" => "b"}) == [["a", "b"]]
-  hashToArray({"a" => "b", 1 => 2}) == [["a", "b"], [1, 2]]
-  hashToArray({"x" => "v", "y" => "w", "z" => "u"}) == [["x", "v"], ["y", "w"], ["z", "u"]]
-  ```
-
-# Part 2 (PhoneBook class)
-In part 2, you will be implementing a PhoneBook class. It is up to you to decide how to store the data (i.e., how to define a phonebook instance's fields) so that you can correctly implement all the required methods.
-
-Even though the data structure you will implement is up to you, keep the following in mind:
-- The Phonebook will hold names and phone numbers, as well as a note on whether each name and phone number pair is **listed** or not.
-- By listed, we mean that they are marked as so (not simply stored). You might want to use a boolean to determine it so.
-- The Phonebook might contain listed and unlisted entries. How you should add them will be specified in the `add` method below.
+We are/were currently students at LSU (Louisiana State Univeristy), taking a project class: 3380 Object-Orientated Design.
 
 
-#### `initialize`
-- **Description**: This is the constructor. You should initialize the fields that you think your class needs for successful evaluation of the remaining methods. We do not test the constructor directly, but we do test it indirectly by testing the remaining methods.
+Goal: 
+The goal of this project is to create an interactive application with note-taking properties. The application consists of a general homepage with several subfunctions (Calculator, Flashcards, etc.)
+We hope and wish that this application will be used by students to improve their academic standings and change study habits.
 
-#### `add(name, number, is_listed)`
-- **Description**: This method attempts to add a new entry to the PhoneBook. `name` is the name of the person and `number` is that person's phone number. The `is\_listed` parameter identifies if this entry should be listed or unlisted in the PhoneBook (`true` if listed, `false` if unlisted). Return `true` if the operation was successful, and `false` otherwise. Here are the **requirements** for the add method:
-    - If the person already exists, then the entry cannot be added to the PhoneBook.
-    - If `number` is not in the format `NNN-NNN-NNNN`, the entry cannot be added to the PhoneBook.
-    - A `number` can be added as *unlisted* any number of times, but can only be added as *listed* once. This means that if `number` already exists and is *listed* in the PhoneBook, the new entry can only be added if the entry will be *unlisted*.
 
-- **Type**: `(String, String, Bool) -> Bool`
-- **Assumptions**: No phone number will start with 0.
-- **Examples**:
-  ```ruby
-  @phonebook = PhoneBook.new
-  @phonebook.add("John", "110-192-1862", false) == true
-  @phonebook.add("Jane", "220-134-1312", false) == true
-  @phonebook.add("John", "110-192-1862", false) == false
-  @phonebook.add("Ravi", "110", true) == false
-  ```
+Designs and Documentation:
+Documentation can be found within the "Design and Documentation" directory. This directory contains a UI blueprint and a design report amoong other things.
   
-  Here is another example:
+
+Important Notes:
+
+For accessing the repo, follow these steps:
+
+1) Download gitbash (it's free)
+2) Create an empty folder and access it with either the gitbash terminal or right-clicking the folder and opening gitbash here. 
+3) Git clone (repo link), into new folder with the use of gitbash.
+4) You can move whatever folders/files into here (please make it organized.)
+5) Then you can use android studio to create new branches, all of these functions should be under the git tab.
+   
+Use guide for our Application:
+
+  STEP 1: Ensure succesful download of AndroidStudio most recent vers. https://developer.android.com/studio (Link is provided for easy download.)
+  STEP 2: Ensure that it is successfully downloaded and run the IDE Application.
+  STEP 3: When you open Andorid Studios, press the hamburger symbol at the top left then press file and select open and navigate to Precision-Notes.
+  STEP 4: Once you are in the Precision-Notes folder click on the hamburger symbol at the top left then click "File" and then "Open". Inside of the Precison-Notes folder navigate to the folder called "Main Screen (GUI)" and open it. 
+  STEP 5: Once you are in the Main Screen (GUI) folder, sync the gradle by clicking the elephant icon in the top right corner to make sure all of the dependencies are wokring.
+  STEP 6: To change the device you are using from a phone to a tablet you can press the phone symbol on the far right of the screen it should pop up with device manager when hovering your mouse over it.
+  STEP 7: To create a new device you can click on the plus button after pressing device manager. Then you press create virtual device (you can run whatever tablet you prefer but we recomend you use Pixel Tablet API 35 as this was the one we used when designing the project) the tablet can be accessed by pressing tablet then navigate to pixel tablet and click on that.
+  STEP 8: to finally run the project you can press the green play button at the top of the screen then you can press the plus button to change the device as needed.
   
-  ```ruby
-  @phonebook2 = PhoneBook.new
-  @phonebook2.add("Alice", "012-345-6789", false) == true
-  @phonebook2.add("Bob", "012-345-6789", false) == true
-  @phonebook2.add("Eve", "012-345-6789", true) == true
-  @phonebook2.add("Rob", "012-345-6789, true) == false
-  @phonebook2.add("Johnny B. Good", "012-345-6789, false) == true
-  ```
+  HUB:
+    The "HUB" is the default space for users when opening the application. They are greeted with a near blank page with a header and several drop down menus. These menus contain connecting functionality to other sections of our application (read more below.)
 
-#### `lookup(name)`
-- **Description**: Looks up `name` in the `PhoneBook` and returns the corresponding phone number in the format `NNN-NNN-NNNN` ONLY if the entry is listed. Otherwise, return `nil`.
-- **Type**: `(String) -> String or nil`
-- **Examples**:
-  ```ruby
-  @phonebook = PhoneBook.new
-  @phonebook.add("John", "110-192-1862", false) == true
-  @phonebook.add("Jane", "220-134-1312", true) == true
-  @phonebook.add("Jack", "114-192-1862", false) == true
-  @phonebook.add("Jessie", "410-124-1131", true) == true
-  @phonebook.add("Ravi", "110", true) == false
+![Screenshot 2024-11-25 170125](https://github.com/user-attachments/assets/cb2c1992-8a26-47cd-9d69-a39770ac7d15)
+![Screenshot 2024-11-25 170022](https://github.com/user-attachments/assets/eb2e8114-a99d-4cde-9099-81795217dd15)
+![Screenshot 2024-11-25 170048](https://github.com/user-attachments/assets/4a082cf7-8426-4af3-af4b-d5d23eaa2b2a)
 
-  @phonebook.lookup("John") == nil
-  @phonebook.lookup("Jack") == nil
-  @phonebook.lookup("Jane") == "220-134-1312"
-  @phonebook.lookup("Jessie") == "410-124-1131"
-  @phonebook.lookup("Ravi") == nil
-  ```
 
-#### `lookupByNum(num)`
-- **Description**: Returns the name associated with a given number *only* if the entry is listed. Otherwise, return `nil`.
-- **Type**: `(String) -> String or nil`
-- **Examples**:
-  ```ruby
-  @phonebook = PhoneBook.new
-  @phonebook.add("John", "110-192-1862", false) == true
-  @phonebook.add("Jane", "220-134-1312", true) == true
-  @phonebook.add("Jack", "114-192-1862", false) == true
-  @phonebook.add("Jessie", "410-124-1131", true) == true
+a) NOTEBOOK
+  - Upon clicking the NOTEBOOK tab a blank page will appear. On this page user's are able to draw whatever they wish upon clicking the screen. Currently, there is no eraser so users have to leave the screen to restart drawing.
+  - The notebook aslo has a formula button that can be accessed by pressing the gear icon, then pressing formulas which it will display a list of formula categories that can be pressed with each category containing multiple formulas within that field. Once a formula is clicked on it will be placed in the center of the screen and each formula can be dragged indavidually. This uses the formulaLib.kt file which contains all the formulas. The formulas as render as LaTeX on the notebook screen.
+  - Users can also export the current version of their notebook screen by pressing the gear icon then clickin gon export. This will export their notebook as a PDF saving it within the Android Studio IDE. The PDF's can be access by by going to the top of the Android Studio IDE and press the hamburger icon, then click view, Tool Windows, then press Device Explorer. Afterwards you will be prompt with a file directory. To access the PDF from here you go to /storage/emulated/0/Android/data/com.thomasw.precision/files/Documents/PrecisionNotes. Afterwards a list of PDFs should display we could not figure out how to navigate to the PDFs on the emulator so for now they can be accesed that way.
 
-  @phonebook.lookupByNum("110-192-1862") == nil
-  @phonebook.lookupByNum("114-192-1862") == nil
-  @phonebook.lookupByNum("220-134-1312") == "Jane"
-  @phonebook.lookupByNum("410-124-1131") == "Jessie"
-  ```
 
-#### `namesByAc(areacode)`
-- **Description**: Returns an array of all names in the `PhoneBook` who have phone numbers beginning with `areacode`, *including unlisted names*.
-- **Type**: `(String) -> Array`
-- **Examples**:
-  ```ruby
-  @phonebook = PhoneBook.new
-  @phonebook.add("John", "110-192-1862", false) == true
-  @phonebook.add("Jane", "220-134-1312", true) == true
-  @phonebook.add("Jack", "114-192-1862", false) == true
-  @phonebook.add("Jessie", "110-124-1131", true) == true
-  # Note that Jessie's number here is a little different than in the other examples!
+  ![Screenshot 2024-11-25 165838](https://github.com/user-attachments/assets/3a5bf3ec-f41f-4c18-bc43-b757da558502)
 
-  @phonebook.namesByAc("110") == ["John", "Jessie"]
-  @phonebook.namesByAc("114") == ["Jack"]
-  @phonebook.namesByAc("111") == []
-  ```
+b) FLASHCARD 
+  IMPORTANT! FLASHCARD CODE IS NOT CONNECTED DIRECTLY TO MAIN HUB! YOU MUST LOAD THE FLASHCARD SEPERATELY! (Try loading as if you were opening another proejct in AndroidStudio's file directory system. Then run.)
+  There is a certain way to get to the flash cards
+  STEP 1: press the hamburger symbol at the top left then navigated to file, open, then go to the folder (Code Features (Flashcards)) located at this path Precision-Notes\src (Flashcard)\Code Features (Flashcards)
+  STEP 2: sync the gradle by pressing the elephant symbol at the top right. (This may take a while as it did on some of our machines.)
+  STEP 3: Now you can run the project by pressing the play button at the top.
+
+![Screenshot 2024-11-27 121255](https://github.com/user-attachments/assets/9472509f-d9a1-4af5-8a48-00350e51b4e4)
+
+   MANAGEMENT LIST
+
+![Screenshot 2024-11-27 121333](https://github.com/user-attachments/assets/f55cf476-8a00-4146-989f-682dd0c4475e)
+
+  
+  The management list is a series of buttons of which each focusing on a different purpose.
+
+  --"EDIT"
+            
+   Edit is self-explanitory, it opens up a display UI allowing users to edit the type of question presented on the flashcard and the answer. Users can also create several other flashcards here with the "NEXT" which opens up a new card while also allowing them to move between cards with the "PREVIOUS" button. The "DELETE" button deletes the current flashcard out of the current list.
+
+  --"LOAD"
+            
+   The "LOAD" button allows users to load flashcards without making edits, this is to allow users to practice while still being presented with the answer that they provided inside of the "EDIT" section. This is different compared to the "RUN" function. (See Below)
+
+  --"SAVE"
+           
+   Saves the current flashcard list present in the "EDIT" button. Users must hit SAVE before entering to practice otherwise, the flashcards will be displayed with the default inofrmation. 
+
+   --"RUN"
+           
+   This runs the currently saved flashcards, putting them into a type-in-answer style practice session. The information present in the flashcard here is stored away and not present to the user. WHen inputting an answer to check if the response is correct, a Android Toast will appear at the bottom of the page. This Toast will confirm or deny whether the user inputted the answer saved to the flashcard correctly. Users may also hit the "NEXT" and "PREVIOUS" buttons to cycle between saved flashcards in order to maximize effective practice.
+   
+![Screenshot 2024-11-27 121349](https://github.com/user-attachments/assets/7b968837-3af4-4461-b243-afc64ecd25ff)
+![Screenshot 2024-11-27 121406](https://github.com/user-attachments/assets/df90d740-ce13-441e-bcce-8ca1649b6add)
+
+   --"QUIT"
+            
+   This quits the application bringing the user back to the "MAIN" of the application to allow them to access other functions of our application.
+
+c) FOLDER
+    Upon clicking the plus symbol and selecting FOLDER tab, users will be prompted to provide a name for the newly created folder. Upon selection a new folder will be created, users can click on the folder to access its contents. The folders are set up to where there can be infinite subfolders. In order to keep track of what folder has what items we used an ID counter that increments by one for each folder created. The folders also go to the next line when the width of the screen is reached.
+
+  ![Screenshot 2024-11-25 170250](https://github.com/user-attachments/assets/48eb23b6-99c8-4501-a46d-9d0f4481d0ce)
+  ![Screenshot 2024-11-25 170322](https://github.com/user-attachments/assets/6ef75ca5-abec-49b0-8107-e31636b08423)
+
+D) PEN COLORS AND SIZE
+Upon clicking the "Settings" button, users will see "Pens." Users can click that and will see a horizontal bar that is used to adjust size, and then a row of colorful circles to choose colors. To change the size of the pens, there is a vertical bar. Users are going to swipe it to change the size: to the left to decrease size and to the right to increase it. Users can click on a specific color circle to make their pen that color. When users are done picking the desired size and color, they can press the "Done" button to use their pen.
+
+E) Calculator 
+This calculator app is a simple yet functional tool created using Kotlin and Jetpack Compose. It allows users to perform various calculations, such as addition, subtraction, multiplication, division, and more complex operations like exponentiation and square roots. The app maintains a history of the last 10 calculations for easy reference. If a user inputs an incorrect expression, the app alerts them with a friendly error message. It’s designed to be intuitive and smooth, making it easy to handle everyday math tasks.  
+
+Bug: Calculator buttons will overlap in the Landscape Version. Please keep in portrait will using the calculator.
+
+
+
+    
+    
+    
